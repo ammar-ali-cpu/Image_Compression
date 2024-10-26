@@ -15,8 +15,8 @@ typedef struct Image {
 
 typedef struct
 {
-    unsigned int height;
-    unsigned int width;
+    unsigned short height;
+    unsigned short width;
     unsigned char *imageData; 
 }Image;
 

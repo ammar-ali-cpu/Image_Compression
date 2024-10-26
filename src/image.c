@@ -18,8 +18,8 @@ Image *load_image(char *filename)
         ungetc(checkForComment, fp);
     }
 
-    unsigned int height, width;
-    fscanf(fp, "%u %u", &width, &height);
+    unsigned short height, width;
+    fscanf(fp, "%hu %hu", &width, &height);
 
     //int maxIntensity;
     //fscanf(fp, "%d", &maxIntensity);
@@ -31,9 +31,9 @@ Image *load_image(char *filename)
 
     for (unsigned int i = 0; i < width * height; i++) 
     {
-        int pixel_value;
-        fscanf(fp, "%d", &pixel_value);
-        image->imageData[i] = (unsigned char)pixel_value;
+        int pixelVal;
+        fscanf(fp, "%d", &pixelVal);
+        image->imageData[i] = (unsigned char)pixelVal;
         fscanf(fp, "%*d %*d"); 
     }
 
@@ -49,14 +49,14 @@ void delete_image(Image *image)
     free(image);
 }
 
-unsigned short get_image_width(Image *image) {
-    (void)image;
-    return 0;
+unsigned short get_image_width(Image *image) 
+{
+    return image->width;
 }
 
-unsigned short get_image_height(Image *image) {
-    (void)image;
-    return 0;
+unsigned short get_image_height(Image *image) 
+{
+    return image->height;
 }
 
 unsigned char get_image_intensity(Image *image, unsigned int row, unsigned int col) 
