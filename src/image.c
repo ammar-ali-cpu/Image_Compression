@@ -13,7 +13,7 @@ Image *load_image(char *filename)
     char p3[3];
     fscanf(fp, "%s", p3);
 
-    int checkForComment = fgetc(fp);
+    char checkForComment = fgetc(fp);
     if (checkForComment == '#') 
     {
         while (fgetc(fp) != '\n' && !feof(fp));

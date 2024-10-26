@@ -69,5 +69,8 @@ int main()
     prepare_input_image_file("building1.ppm"); // copies the image to the images/ directory   
 
     Image *image = load_image("images/building1.ppm");
+    printf("Width: %hu\n", image->width);
+    printf("Height: %hu", image->height);
+
     delete_image(image);
 }
