@@ -37,8 +37,10 @@ Image *load_image(char *filename)
     return image;
 }
 
-void delete_image(Image *image) {
-    (void)image;
+void delete_image(Image *image) 
+{
+    free(image->imageData);
+    free(image);
 }
 
 unsigned short get_image_width(Image *image) {
