@@ -20,6 +20,9 @@ Image *load_image(char *filename)
     unsigned int height, width;
     fscanf(fp, "%u %u", &width, &height);
 
+    int maxIntensity;
+    fscanf(fp, "%d", &maxIntensity);
+
     Image *image = (Image *)malloc(sizeof(Image));
     image->width = width;
     image->height = height;
