@@ -12,17 +12,20 @@ Image *load_image(char *filename)
     
     char p3[3];
     fscanf(fp, "%s", p3);
-
-    char checkForComment = fgetc(fp);
+    
+    //char checkForComment = fgetc(fp); //is this supposed to be int?
+    char checkForComment;
+    fscanf(fp, "%s", &checkForComment);
     if (checkForComment == '#') 
     {
-        while (fgetc(fp) != '\n' && !feof(fp));
+       // while (fgetc(fp) != '\n' && !feof(fp));
+       while (fgetc(fp) != '\n');
     } 
     else 
     {
         ungetc(checkForComment, fp);
     }
-
+    
     unsigned short height, width;
     fscanf(fp, "%hu %hu", &width, &height);
 

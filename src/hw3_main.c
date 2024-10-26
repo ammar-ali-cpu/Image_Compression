@@ -66,9 +66,9 @@ int main()
     struct stat st;
     if (stat("tests/output", &st) == -1)
         mkdir("tests/output", 0700);
-    prepare_input_image_file("building1.ppm"); // copies the image to the images/ directory   
+    prepare_input_image_file("building2.ppm"); // copies the image to the images/ directory   
 
-    Image *image = load_image("images/building1.ppm");
+    Image *image = load_image("images/building2.ppm");
     printf("Width: %hu\n", image->width);
     printf("Height: %hu", image->height);
 
