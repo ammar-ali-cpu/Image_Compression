@@ -31,4 +31,4 @@ char *reveal_message(char *input_filename);
 unsigned int hide_image(char *secret_image_filename, char *input_filename, char *output_filename);
 void reveal_image(char *input_filename, char *output_filename);
 
-#endif // __IMAGE_H;
+#endif // __IMAGE_H
