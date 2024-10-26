@@ -3,7 +3,12 @@
 
 Image *load_image(char *filename) 
 {    
-    FILE *fp = fopen(filename, "r");
+    FILE *fp;
+    if ((fp = fopen(filename, "r")) == NULL)
+    {
+        printf("Error: cannot open file");
+    }
+
     
     char p3[3];
     fscanf(fp, "%s", p3);
@@ -21,8 +26,8 @@ Image *load_image(char *filename)
     unsigned short height, width;
     fscanf(fp, "%hu %hu", &width, &height);
 
-    //int maxIntensity;
-    //fscanf(fp, "%d", &maxIntensity);
+    int maxIntensity;
+    fscanf(fp, "%d", &maxIntensity);
 
     Image *image = (Image *)malloc(sizeof(Image));
     image->width = width;
