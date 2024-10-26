@@ -1,8 +1,40 @@
 #include "image.h"
 
-Image *load_image(char *filename) {    
-    (void)filename;
-    return NULL;
+Image *load_image(char *filename) 
+{    
+    FILE *fp = fopen(filename, "r");
+    
+    char p3[3];
+    fscanf(fp, "%s", p3);
+
+    int checkForComment = fgetc(fp);
+    if (checkForComment == '#') 
+    {
+        while (fgetc(fp) != '\n' && !feof(fp));
+    } 
+    else 
+    {
+        ungetc(checkForComment, fp);
+    }
+
+    unsigned int height, width;
+    fscanf(fp, "%u %u", &width, &height);
+
+    Image *image = (Image *)malloc(sizeof(Image));
+    image->width = width;
+    image->height = height;
+    image->imageData = malloc(width * height * sizeof(int));
+
+    for (unsigned int i = 0; i < width * height; i++) 
+    {
+        int pixel_value;
+        fscanf(fp, "%d", &pixel_value);
+        image->imageData[i] = pixel_value;
+        fscanf(fp, "%*d %*d"); 
+    }
+
+    fclose(fp);  
+    return image;
 }
 
 void delete_image(Image *image) {

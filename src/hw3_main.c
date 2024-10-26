@@ -3,7 +3,8 @@
 
 #include "tests_utils.h"
 
-int main() {
+int main() 
+{
     struct stat st;
     if (stat("tests/output", &st) == -1)
         mkdir("tests/output", 0700);

@@ -7,9 +7,18 @@
 #define INFO(...) do {fprintf(stderr, "[          ] [ INFO ] "); fprintf(stderr, __VA_ARGS__); fprintf(stderr, "\n"); fflush(stderr);} while(0)
 #define ERROR(...) do {fprintf(stderr, "[          ] [ ERR  ] "); fprintf(stderr, __VA_ARGS__); fprintf(stderr, "\n"); fflush(stderr);} while(0) 
 
+/*
 typedef struct Image {
     char placeholder[1];  // This is a placeholder. You should not use this struct.
 } Image;
+*/
+
+typedef struct
+{
+    unsigned int height;
+    unsigned int width;
+    int *imageData; 
+}Image;
 
 Image *load_image(char *filename);
 void delete_image(Image *image);
@@ -22,4 +31,4 @@ char *reveal_message(char *input_filename);
 unsigned int hide_image(char *secret_image_filename, char *input_filename, char *output_filename);
 void reveal_image(char *input_filename, char *output_filename);
 
-#endif // __IMAGE_H
+#endif // __IMAGE_H;
