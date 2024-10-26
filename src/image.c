@@ -27,13 +27,13 @@ Image *load_image(char *filename)
     Image *image = (Image *)malloc(sizeof(Image));
     image->width = width;
     image->height = height;
-    image->imageData = malloc(width * height * sizeof(int));
+    image->imageData = malloc(height * width * sizeof(unsigned char));
 
     for (unsigned int i = 0; i < width * height; i++) 
     {
         int pixel_value;
         fscanf(fp, "%d", &pixel_value);
-        image->imageData[i] = pixel_value;
+        image->imageData[i] = (unsigned char)pixel_value;
         fscanf(fp, "%*d %*d"); 
     }
 
@@ -59,11 +59,9 @@ unsigned short get_image_height(Image *image) {
     return 0;
 }
 
-unsigned char get_image_intensity(Image *image, unsigned int row, unsigned int col) {
-    (void)image;
-    (void)row;
-    (void)col;
-    return 0;
+unsigned char get_image_intensity(Image *image, unsigned int row, unsigned int col) 
+{
+    return image->imageData[row*image->width +col];
 }
 
 unsigned int hide_message(char *message, char *input_filename, char *output_filename) {

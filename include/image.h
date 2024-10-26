@@ -17,7 +17,7 @@ typedef struct
 {
     unsigned int height;
     unsigned int width;
-    int *imageData; 
+    unsigned char *imageData; 
 }Image;
 
 Image *load_image(char *filename);
