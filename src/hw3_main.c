@@ -66,11 +66,11 @@ int main()
     struct stat st;
     if (stat("tests/output", &st) == -1)
         mkdir("tests/output", 0700);
-    prepare_input_image_file("building2.ppm"); // copies the image to the images/ directory   
+    prepare_input_image_file("dog.ppm"); // copies the image to the images/ directory   
 
-    Image *image = load_image("images/building2.ppm");
+    Image *image = load_image("images/dog.ppm");
     printf("Width: %hu\n", image->width);
-    printf("Height: %hu", image->height);
+    printf("Height: %hu\n", image->height);
 
     delete_image(image);
 }
