@@ -9,9 +9,24 @@
 #define INFO(...) do {fprintf(stderr, "[          ] [ INFO ] "); fprintf(stderr, __VA_ARGS__); fprintf(stderr, "\n"); fflush(stderr);} while(0)
 #define ERROR(...) do {fprintf(stderr, "[          ] [ ERR  ] "); fprintf(stderr, __VA_ARGS__); fprintf(stderr, "\n"); fflush(stderr);} while(0) 
 
-typedef struct QTNode {
-    char placeholder[1];  // This is a placeholder. You should not use this struct.    
+// typedef struct QTNode {
+//     char placeholder[1];  // This is a placeholder. You should not use this struct.    
+// } QTNode;
+
+typedef struct QTNode
+{
+    char nodeOrLeaf;
+    unsigned char intensity;
+    unsigned short height;
+    unsigned short width;
+    unsigned int row;
+    unsigned int col;
+    struct QTNode *child1;
+    struct QTNode *child2;
+    struct QTNode *child3;
+    struct QTNode *child4;
 } QTNode;
+
 
 QTNode *create_quadtree(Image *image, double max_rmse);  
 QTNode *get_child1(QTNode *node);
