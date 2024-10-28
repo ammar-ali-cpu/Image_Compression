@@ -1,7 +1,7 @@
 #include "qtree.h"
 #include <math.h>
 
-double avg_intensity_and_rmse(Image *image, unsigned int height, unsigned int width, unsigned int row, unsigned int col, double *rmse)
+static double avg_intensity_and_rmse(Image *image, unsigned int height, unsigned int width, unsigned int row, unsigned int col, double *rmse)
 {
     double sum = 0.0;
     double sum_square = 0.0;
@@ -47,7 +47,7 @@ QTNode *helper(Image *image, double max_rmse, unsigned int height, unsigned int 
     root->child4 = NULL;
     root->nodeOrLeaf = 'L';
 
-    if((rmse >= max_rmse) && height>1 && width >1)
+    if((rmse > max_rmse) && height>1 && width >1)
     {
         root->nodeOrLeaf = 'N';
         root->child1 = helper(image, max_rmse, height/2, width/2, row, col);
