@@ -4,19 +4,29 @@
 double avg_intensity_and_rmse(Image *image, unsigned int height, unsigned int width, unsigned int row, unsigned int col, double *rmse)
 {
     double sum = 0.0;
-    double sum_square = 0.0;
+    //double sum_square = 0.0;
     for(unsigned int i = row; i < row + height; i++)
     {
         for(unsigned int j = col; j < col + width; j++)
         {
             sum += get_image_intensity(image, i, j);
-            sum_square += (get_image_intensity(image, i, j)) * (get_image_intensity(image, i, j));
+            //sum_square += (get_image_intensity(image, i, j)) * (get_image_intensity(image, i, j));
         }
     }
     double numOfPixels = height * width;
     double avg = sum / numOfPixels;
 
-    *rmse = sqrt((sum_square/numOfPixels) - (avg * avg));
+    double squaredDifference = 0;
+    for(unsigned int i = row; i < row + height; i++)
+    {
+        for(unsigned int j = col; j < col + width; j++)
+        {
+            squaredDifference += ((avg - get_image_intensity(image, i, j))*(avg - get_image_intensity(image, i, j)));
+        }
+    }
+    double avgOfSquaredDifference = squaredDifference/numOfPixels;
+
+    *rmse = sqrt(avgOfSquaredDifference);
     return avg;
 }
 
@@ -25,7 +35,8 @@ QTNode *helper(Image *image, double max_rmse, unsigned int height, unsigned int 
     double rmse = 0;
     QTNode *root = (QTNode*)malloc(sizeof(QTNode));
 
-    root->intensity = (unsigned char)avg_intensity_and_rmse(image, get_image_height(image), get_image_width(image), 0, 0, &rmse);
+
+    root->intensity = (unsigned char)avg_intensity_and_rmse(image, height, width, row, col, &rmse);
     root->height = height;
     root->width = width;
     root->row = row;
