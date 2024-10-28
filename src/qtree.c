@@ -63,15 +63,15 @@ QTNode *helper(Image *image, double max_rmse, unsigned int height, unsigned int 
         root->child3 = helper(image, max_rmse, (height/2), width/2, row + (height/2), col);//height-
         root->child4 = helper(image, max_rmse, (height/2), (width/2), row + (height/2), col + (width/2));///height- width - 
     }
-    else if(height == 1)
+    else if(height == 1 && width != 1)
     {
-        root->child1 = helper(image, max_rmse, height/2, width/2, row, col);
-        root->child2 = helper(image, max_rmse, height/2, (width/2), row, col + (width/2));//width - 
+        root->child1 = helper(image, max_rmse, height, width/2, row, col);
+        root->child2 = helper(image, max_rmse, height, (width/2), row, col + (width/2));//width - 
     }
-    else if(width == 1)
+    else if(width == 1 && height != 1)
     {
-        root->child1 = helper(image, max_rmse, height/2, width/2, row, col);
-        root->child4 = helper(image, max_rmse, (height/2), (width/2), row + (height/2), col + (width/2));///height- width - 
+        root->child1 = helper(image, max_rmse, height/2, width, row, col);
+        root->child3 = helper(image, max_rmse, (height/2), width, row + (height/2), col);//height-
     }
     return root;
 }
