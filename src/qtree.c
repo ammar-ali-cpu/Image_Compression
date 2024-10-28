@@ -30,6 +30,12 @@ static double avg_intensity_and_rmse(Image *image, unsigned int height, unsigned
 
     //*rmse = sqrt((sum_square/numOfPixels) - (avg*avg));
     printf("%f ", avg);
+
+    unsigned char avgChar = (unsigned char)avg;
+
+    printf("%c ", avgChar);
+
+
     return avg;
 }
 
@@ -38,7 +44,6 @@ QTNode *helper(Image *image, double max_rmse, unsigned int height, unsigned int 
     double rmse = 0;
     QTNode *root = (QTNode*)malloc(sizeof(QTNode));
 
-    
     root->intensity = (unsigned char)avg_intensity_and_rmse(image, height, width, row, col, &rmse);
     root->height = height;
     root->width = width;
@@ -106,17 +111,20 @@ void delete_quadtree(QTNode *root)
     free(root);
 }
 
-void save_qtree_as_ppm(QTNode *root, char *filename) {
+void save_qtree_as_ppm(QTNode *root, char *filename) 
+{
     (void)root;
     (void)filename;
 }
 
-QTNode *load_preorder_qt(char *filename) {
+QTNode *load_preorder_qt(char *filename) 
+{
     (void)filename;
     return NULL;
 }
 
-void save_preorder_qt(QTNode *root, char *filename) {
+void save_preorder_qt(QTNode *root, char *filename) 
+{
     (void)root;
     (void)filename;
 }
