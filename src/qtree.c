@@ -23,8 +23,8 @@ double avg_intensity_and_rmse(Image *image, unsigned int height, unsigned int wi
 QTNode *helper(Image *image, double max_rmse, unsigned int height, unsigned int width, unsigned int row, unsigned int col)
 {
     QTNode *root = (QTNode*)malloc(sizeof(QTNode));
-    double *rmse = 0;
-    root->intensity = (unsigned char)avg_intensity_and_rmse(image, get_image_height(image), get_image_width(image), 0, 0, rmse);
+    double rmse = 0;
+    root->intensity = (unsigned char)avg_intensity_and_rmse(image, get_image_height(image), get_image_width(image), 0, 0, &rmse);
     root->height = height;
     root->width = width;
     root->row = row;
@@ -35,7 +35,7 @@ QTNode *helper(Image *image, double max_rmse, unsigned int height, unsigned int 
     root->child4 = NULL;
     root->nodeOrLeaf = 'L';
 
-    if(*rmse >= max_rmse)
+    if(rmse >= max_rmse)
     {
         root->nodeOrLeaf = 'N';
         root->child1 = helper(image, max_rmse, height/2, width/2, row, col);

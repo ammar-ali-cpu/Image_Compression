@@ -4,21 +4,21 @@
 #include "tests_utils.h"
 
 
-// int main() 
-// {
-//     struct stat st;
-//     if (stat("tests/output", &st) == -1)
-//         mkdir("tests/output", 0700);
-//     prepare_input_image_file("building1.ppm"); // copies the image to the images/ directory
+int main() 
+{
+    struct stat st;
+    if (stat("tests/output", &st) == -1)
+        mkdir("tests/output", 0700);
+    prepare_input_image_file("building1.ppm"); // copies the image to the images/ directory
 
-//     /******************************* create_quadtree *******************************/
-//     double max_rmse = 25;
-//     Image *image = load_image("images/building1.ppm");
-//     QTNode *root = create_quadtree(image, max_rmse);
-//     // See tests/input/load_preorder_qt1_qtree.txt for the expected results
-//     // You will need to write your own code to verify that your quadtree was constructed properly
-//     delete_quadtree(root);
-//     delete_image(image);
+    /******************************* create_quadtree *******************************/
+    double max_rmse = 25;
+    Image *image = load_image("images/building1.ppm");
+    QTNode *root = create_quadtree(image, max_rmse);
+    // See tests/input/load_preorder_qt1_qtree.txt for the expected results
+    // You will need to write your own code to verify that your quadtree was constructed properly
+    delete_quadtree(root);
+    delete_image(image);
 
 
 
@@ -59,18 +59,19 @@
 //     reveal_image("tests/output/hide_image1.ppm", "tests/output/reveal_image1.ppm");
 
 //     return 0;
-// }
-
-int main()
-{
-    struct stat st;
-    if (stat("tests/output", &st) == -1)
-        mkdir("tests/output", 0700);
-    prepare_input_image_file("dog.ppm"); // copies the image to the images/ directory   
-
-    Image *image = load_image("images/dog.ppm");
-    printf("Width: %hu\n", image->width);
-    printf("Height: %hu\n", image->height);
-
-    delete_image(image);
 }
+
+// int main()
+// {
+//     struct stat st;
+//     if (stat("tests/output", &st) == -1)
+//         mkdir("tests/output", 0700);
+//     prepare_input_image_file("dog.ppm"); // copies the image to the images/ directory   
+
+//     Image *image = load_image("images/dog.ppm");
+//     printf("Width: %hu\n", image->width);
+//     printf("Height: %hu\n", image->height);
+
+
+//     delete_image(image);
+// }
