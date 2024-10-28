@@ -59,21 +59,21 @@ QTNode *helper(Image *image, double max_rmse, unsigned int height, unsigned int 
     {
         root->nodeOrLeaf = 'N';
         root->child1 = helper(image, max_rmse, height/2, width/2, row, col);
-        root->child2 = helper(image, max_rmse, height/2, (width/2), row, col + (width/2));//width - 
-        root->child3 = helper(image, max_rmse, (height/2), width/2, row + (height/2), col);//height-
-        root->child4 = helper(image, max_rmse, (height/2), (width/2), row + (height/2), col + (width/2));///height- width - 
+        root->child2 = helper(image, max_rmse, height/2, width -(width/2), row, col + (width/2));// 
+        root->child3 = helper(image, max_rmse, height-(height/2), width/2, row + (height/2), col);//
+        root->child4 = helper(image, max_rmse, height- (height/2), width - (width/2), row + (height/2), col + (width/2));//
     }
     else if((rmse > max_rmse) && width > 1)
     {
         root->nodeOrLeaf = 'N';
         root->child1 = helper(image, max_rmse, height, width/2, row, col);
-        root->child2 = helper(image, max_rmse, height, (width/2), row, col + (width/2));//width - 
+        root->child2 = helper(image, max_rmse, height, width -(width/2), row, col + (width/2));// 
     }
     else if((rmse > max_rmse) && height > 1)
     {
         root->nodeOrLeaf = 'N';
         root->child1 = helper(image, max_rmse, height/2, width, row, col);
-        root->child3 = helper(image, max_rmse, (height/2), width, row + (height/2), col);//height-
+        root->child3 = helper(image, max_rmse, height-(height/2), width, row + (height/2), col);//
     }
 
     // if ((rmse > max_rmse) && (height > 1 || width > 1)) 
