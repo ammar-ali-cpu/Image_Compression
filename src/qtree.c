@@ -29,11 +29,11 @@ static double avg_intensity_and_rmse(Image *image, unsigned int height, unsigned
     *rmse = sqrt(avgOfSquaredDifference);
 
     //*rmse = sqrt((sum_square/numOfPixels) - (avg*avg));
-    printf("%f ", avg);
+    //printf("%f ", avg);
 
-    unsigned char avgChar = (unsigned char)avg;
+    //unsigned char avgChar = (unsigned char)avg;
 
-    printf("%c ", avgChar);
+    //printf("%d ", avgChar);
 
 
     return avg;
