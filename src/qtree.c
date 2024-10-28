@@ -4,29 +4,31 @@
 static double avg_intensity_and_rmse(Image *image, unsigned int height, unsigned int width, unsigned int row, unsigned int col, double *rmse)
 {
     double sum = 0.0;
-    double sum_square = 0.0;
+    //double sum_square = 0.0;
     for(unsigned int i = row; i < row + height; i++)
     {
         for(unsigned int j = col; j < col + width; j++)
         {
             sum += get_image_intensity(image, i, j);
-            sum_square += (get_image_intensity(image, i, j)) * (get_image_intensity(image, i, j));
+            //sum_square += (get_image_intensity(image, i, j)) * (get_image_intensity(image, i, j));
         }
     }
     double numOfPixels = height * width;
     double avg = sum / numOfPixels;
 
-    // double squaredDifference = 0;
-    // for(unsigned int i = row; i < row + height; i++)
-    // {
-    //     for(unsigned int j = col; j < col + width; j++)
-    //     {
-    //         squaredDifference += ((avg - get_image_intensity(image, i, j))*(avg - get_image_intensity(image, i, j)));
-    //     }
-    // }
-    // double avgOfSquaredDifference = squaredDifference/numOfPixels;
+    double squaredDifference = 0;
+    for(unsigned int i = row; i < row + height; i++)
+    {
+        for(unsigned int j = col; j < col + width; j++)
+        {
+            double difference = avg - get_image_intensity(image, i, j);
+            squaredDifference += (difference*difference);
+        }
+    }
+    double avgOfSquaredDifference = squaredDifference/numOfPixels;
+    *rmse = sqrt(avgOfSquaredDifference);
 
-    *rmse = sqrt((sum_square/numOfPixels) - (avg*avg));
+    //*rmse = sqrt((sum_square/numOfPixels) - (avg*avg));
     return avg;
 }
 
