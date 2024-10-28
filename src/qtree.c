@@ -22,8 +22,9 @@ double avg_intensity_and_rmse(Image *image, unsigned int height, unsigned int wi
 
 QTNode *helper(Image *image, double max_rmse, unsigned int height, unsigned int width, unsigned int row, unsigned int col)
 {
-    QTNode *root = (QTNode*)malloc(sizeof(QTNode));
     double rmse = 0;
+    QTNode *root = (QTNode*)malloc(sizeof(QTNode));
+
     root->intensity = (unsigned char)avg_intensity_and_rmse(image, get_image_height(image), get_image_width(image), 0, 0, &rmse);
     root->height = height;
     root->width = width;
@@ -35,7 +36,7 @@ QTNode *helper(Image *image, double max_rmse, unsigned int height, unsigned int 
     root->child4 = NULL;
     root->nodeOrLeaf = 'L';
 
-    if(rmse >= max_rmse)
+    if((rmse >= max_rmse) && height>1 && width >1)
     {
         root->nodeOrLeaf = 'N';
         root->child1 = helper(image, max_rmse, height/2, width/2, row, col);
@@ -53,33 +54,43 @@ QTNode *create_quadtree(Image *image, double max_rmse)
     return root;
 }
 
-QTNode *get_child1(QTNode *node) {
-    (void)node;
-    return NULL;
+QTNode *get_child1(QTNode *node) 
+{
+    return node->child1;
 }
 
-QTNode *get_child2(QTNode *node) {
-    (void)node;
-    return NULL;
+QTNode *get_child2(QTNode *node) 
+{
+    return node->child2;
 }
 
-QTNode *get_child3(QTNode *node) {
-    (void)node;
-    return NULL;
+QTNode *get_child3(QTNode *node) 
+{
+    return node->child3;
 }
 
-QTNode *get_child4(QTNode *node) {
-    (void)node;
-    return NULL;
+QTNode *get_child4(QTNode *node) 
+{
+    return node->child4;
 }
 
-unsigned char get_node_intensity(QTNode *node) {
+unsigned char get_node_intensity(QTNode *node) 
+{
     (void)node;
     return 0;
 }
 
-void delete_quadtree(QTNode *root) {
-    (void)root;
+void delete_quadtree(QTNode *root) 
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    delete_quadtree(root->child1);
+    delete_quadtree(root->child2);
+    delete_quadtree(root->child3);
+    delete_quadtree(root->child4);
+    free(root);
 }
 
 void save_qtree_as_ppm(QTNode *root, char *filename) {
