@@ -75,33 +75,6 @@ QTNode *helper(Image *image, double max_rmse, unsigned int height, unsigned int 
         root->child1 = helper(image, max_rmse, height/2, width, row, col);
         root->child3 = helper(image, max_rmse, height-(height/2), width, row + (height/2), col);//
     }
-
-    // if ((rmse > max_rmse) && (height > 1 || width > 1)) 
-    // {
-    //     root->nodeOrLeaf = 'N';
-
-    //     // Split both horizontally and vertically if both height and width are > 1
-    //     if (height > 1 && width > 1) {
-    //         unsigned int half_height = height / 2;
-    //         unsigned int half_width = width / 2;
-    //         root->child1 = helper(image, max_rmse, half_height, half_width, row, col);
-    //         root->child2 = helper(image, max_rmse, half_height, width - half_width, row, col + half_width);
-    //         root->child3 = helper(image, max_rmse, height - half_height, half_width, row + half_height, col);
-    //         root->child4 = helper(image, max_rmse, height - half_height, width - half_width, row + half_height, col + half_width);
-    //     }
-    //     // Split only horizontally if height > 1 but width == 1
-    //     else if (height > 1) {
-    //         unsigned int half_height = height / 2;
-    //         root->child1 = helper(image, max_rmse, half_height, width, row, col);
-    //         root->child3 = helper(image, max_rmse, height - half_height, width, row + half_height, col);
-    //     }
-    //     // Split only vertically if width > 1 but height == 1
-    //     else if (width > 1) {
-    //         unsigned int half_width = width / 2;
-    //         root->child1 = helper(image, max_rmse, height, half_width, row, col);
-    //         root->child2 = helper(image, max_rmse, height, width - half_width, row, col + half_width);
-    //     }
-    // }
     return root;
 }
 
