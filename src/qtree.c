@@ -157,58 +157,6 @@ void save_qtree_as_ppm(QTNode *root, char *filename)
     fclose(fp); 
 }
 
-// QTNode *load_preorder_helper(FILE *fp)
-// {
-//     char leafOfNode = 'X';
-//     int intensity = 0;
-//     int row = 0;
-//     int height = 0;
-//     int col = 0;
-//     int width = 0;
-//     fscanf(fp, "%c %d %d %d %d %d", &leafOfNode, &intensity, &row, &height, &col, &width);
-//     if(leafOfNode != 'N' || leafOfNode != 'L')
-//     {
-//         return NULL;
-//     }
-
-//     QTNode *nodeToReturn = malloc(sizeof(QTNode));
-//     nodeToReturn->intensity = intensity;
-//     nodeToReturn->row = row;
-//     nodeToReturn->height = height;
-//     nodeToReturn->col = col;
-//     nodeToReturn->width = width;
-//     nodeToReturn->child1 = NULL;
-//     nodeToReturn->child2 = NULL;
-//     nodeToReturn->child3 = NULL;
-//     nodeToReturn->child4 = NULL;
-
-//     if(leafOfNode == 'N')
-//     {
-//         if(height == 1)
-//         {
-//             nodeToReturn->child1 = load_preorder_helper(fp);
-//             nodeToReturn->child2 = load_preorder_helper(fp);
-//             nodeToReturn->child3 = NULL;
-//             nodeToReturn->child4 = NULL;
-//         }
-//         else if(width == 1)
-//         {
-//             nodeToReturn->child1 = load_preorder_helper(fp);
-//             nodeToReturn->child2 = NULL;
-//             nodeToReturn->child3 = load_preorder_helper(fp);
-//             nodeToReturn->child4 = NULL;
-//         }
-//         else
-//         {
-//             nodeToReturn->child1 = load_preorder_helper(fp);
-//             nodeToReturn->child2 = load_preorder_helper(fp);
-//             nodeToReturn->child3 = load_preorder_helper(fp);
-//             nodeToReturn->child4 = load_preorder_helper(fp);
-//         }
-        
-//     }
-//     return nodeToReturn;
-// }
 
 QTNode *load_preorder_helper(FILE *fp) 
 {
@@ -219,17 +167,12 @@ QTNode *load_preorder_helper(FILE *fp)
     int col = 0;
     int width = 0;
 
-    if (fscanf(fp, " %c %d %d %d %d %d", &leafOrNode, &intensity, &row, &height, &col, &width) != 6) 
+    if (fscanf(fp, "%c %d %d %d %d %d", &leafOrNode, &intensity, &row, &height, &col, &width) != 6) 
     {
         return NULL; 
     }
 
     QTNode *nodeToReturn = malloc(sizeof(QTNode));
-    // if (nodeToReturn == NULL) 
-    // {
-    //     fprintf(stderr, "Memory allocation failed\n");
-    //     return NULL;  
-    // }
     nodeToReturn->intensity = intensity;
     nodeToReturn->row = row;
     nodeToReturn->height = height;
@@ -269,7 +212,6 @@ QTNode *load_preorder_helper(FILE *fp)
         nodeToReturn->child3 = NULL;
         nodeToReturn->child4 = NULL;
     }
-
     return nodeToReturn;  
 }
 
