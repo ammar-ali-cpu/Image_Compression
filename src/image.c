@@ -95,9 +95,10 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
     unsigned int pixelsEncoded = 0;
     int charIndex = 0;
     int bitIndex = 0;
-    int ended = 0;
+    //int ended = 0;
+    int nuller =0;
 
-    for(unsigned int i = 0; i < numOfPixels; i++)
+    for(unsigned int i = 0; i <= numOfPixels; i++)
     {
         int currIntensity;
         fscanf(inputFP, "%d", &currIntensity);
@@ -110,9 +111,11 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
             unsigned char currChar = message[charIndex];
             bitToHide = (currChar >> (7 - bitIndex)) & 1;
         }
-        else if((ended == 0) && (pixelsEncoded < (numOfPixels/8)))
+        else if(/*(ended == 0) &&*/ (pixelsEncoded < (numOfPixels/8)) && nuller < 8)
         {
             bitToHide = 0;
+            printf("condition reached");
+            nuller++;
         }
         else
         {
@@ -125,6 +128,7 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
         }
 
         currIntensity = (currIntensity & ~0x1) | bitToHide;
+        printf("currIntensity: %x \n",currIntensity);
         bitIndex++;
         if(bitIndex == 8)
         {
@@ -136,7 +140,7 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
             }
             if (charIndex >= msgLength) 
             {
-                ended = 1;  
+                //ended = 1;  
             }
         }
 
@@ -147,7 +151,6 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
             fprintf(outputFP, "\n");
         }
     }
-
     fclose(inputFP);
     fclose(outputFP);
     return pixelsEncoded;
