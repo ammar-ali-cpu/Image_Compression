@@ -92,7 +92,7 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
     unsigned int numOfPixels = height*width;
     int msgLength = strlen(message);
     //printf("%d %d", numOfPixels ,msgLength);
-    unsigned int pixelsEncoded = 0;
+    unsigned int pixelsEncoded = -1;
     int charIndex = 0;
     int bitIndex = 0;
     //int ended = 0;
@@ -156,19 +156,22 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
     return pixelsEncoded;
 }
 
-char *reveal_message(char *input_filename) {
+char *reveal_message(char *input_filename) 
+{
     (void)input_filename;
     return NULL;
 }
 
-unsigned int hide_image(char *secret_image_filename, char *input_filename, char *output_filename) {
+unsigned int hide_image(char *secret_image_filename, char *input_filename, char *output_filename) 
+{
     (void)secret_image_filename;
     (void)input_filename;
     (void)output_filename;
     return 10;
 }
 
-void reveal_image(char *input_filename, char *output_filename) {
+void reveal_image(char *input_filename, char *output_filename) 
+{
     (void)input_filename;
     (void)output_filename;
 }
