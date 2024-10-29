@@ -89,34 +89,56 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
     fscanf(inputFP, "%d", &maxIntensity);
     fprintf(outputFP, "%s\n%d %d\n%d", p3, width, height, maxIntensity);
 
-    int numOfPixels = height*width;
+    unsigned int numOfPixels = height*width;
     int msgLength = strlen(message);
     //printf("%d %d", numOfPixels ,msgLength);
     unsigned int pixelsEncoded = 0;
     int charIndex = 0;
     int bitIndex = 0;
+    int ended = 0;
 
-    for(int i = 0; i < numOfPixels; i++)
+    for(unsigned int i = 0; i < numOfPixels; i++)
     {
         int currIntensity;
         fscanf(inputFP, "%d", &currIntensity);
         int waste1 =0, waste2 =0;
         fscanf(inputFP, " %d %d", &waste1, &waste2);
+        int bitToHide =0;
 
-        if(charIndex < msgLength)
+        if((charIndex < msgLength) && (pixelsEncoded < (numOfPixels/8)))
         {
             unsigned char currChar = message[charIndex];
-            int bitToHide = (currChar >> (7 - bitIndex)) & 1;
-            currIntensity = (currIntensity & ~0x1) | bitToHide;
-
-            bitIndex++;
-            if(bitIndex == 8)
+            bitToHide = (currChar >> (7 - bitIndex)) & 1;
+        }
+        else if((ended == 0) && (pixelsEncoded < (numOfPixels/8)))
+        {
+            bitToHide = 0;
+        }
+        else
+        {
+            fprintf(outputFP, "%d %d %d ", currIntensity, currIntensity, currIntensity);
+            if ((i + 1) % width == 0) 
             {
-                bitIndex = 0;
-                charIndex++;
-                pixelsEncoded++;
+                fprintf(outputFP, "\n");
             }
         }
+
+        currIntensity = (currIntensity & ~0x1) | bitToHide;
+        bitIndex++;
+        if(bitIndex == 8)
+        {
+            bitIndex = 0;
+            charIndex++;
+            if (charIndex <= msgLength) 
+            {
+                pixelsEncoded++;
+            }
+            if (charIndex >= msgLength) 
+            {
+                ended = 1;  
+            }
+        }
+
         fprintf(outputFP, "%d %d %d", currIntensity, currIntensity, currIntensity);
 
     }
