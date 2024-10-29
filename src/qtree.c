@@ -241,7 +241,7 @@ void save_preorder_helper(QTNode *node, FILE *fp)
     unsigned short width = node->width;
     unsigned int row = node->row;
     unsigned int col = node->col;
-    fprintf(fp, "%c %c %d %d %d %d\n", nodeOfLeaf, intensity, row, height, col, width);
+    fprintf(fp, "%c %d %d %d %d %d\n", nodeOfLeaf, intensity, row, height, col, width);
     if(node->child1 != NULL)
     {
         save_preorder_helper(node->child1, fp);
@@ -267,12 +267,8 @@ void save_preorder_qt(QTNode *root, char *filename)
     {
         printf("Error: cannot open file");
     }
-    fclose(fp);
-    fopen(filename, "a");
     save_preorder_helper(root, fp);
 
     fclose(fp);
-    (void)root;
-    (void)filename;
 }
 
