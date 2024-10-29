@@ -196,9 +196,9 @@ QTNode *load_preorder_qt(char *filename)
     {
         printf("Error: cannot open file");
     }
-    load_preorder_helper(fp);
+    QTNode *root = load_preorder_helper(fp);
     fclose(fp);
-    return NULL;
+    return root;
 }
 
 void save_preorder_qt(QTNode *root, char *filename) 
