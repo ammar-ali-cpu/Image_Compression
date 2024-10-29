@@ -87,7 +87,7 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
     fscanf(inputFP, "%d %d", &width, &height);
     int maxIntensity= 0;
     fscanf(inputFP, "%d", &maxIntensity);
-    fprintf(outputFP, "%s\n%d %d\n%d", p3, width, height, maxIntensity);
+    fprintf(outputFP, "%s\n%d %d\n%d\n", p3, width, height, maxIntensity);
 
     unsigned int numOfPixels = height*width;
     int msgLength = strlen(message);
@@ -121,6 +121,7 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
             {
                 fprintf(outputFP, "\n");
             }
+            continue;
         }
 
         currIntensity = (currIntensity & ~0x1) | bitToHide;
@@ -129,7 +130,7 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
         {
             bitIndex = 0;
             charIndex++;
-            if (charIndex <= msgLength) 
+            if (charIndex < msgLength) 
             {
                 pixelsEncoded++;
             }
@@ -139,8 +140,12 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
             }
         }
 
-        fprintf(outputFP, "%d %d %d", currIntensity, currIntensity, currIntensity);
+        fprintf(outputFP, "%d %d %d ", currIntensity, currIntensity, currIntensity);
 
+        if ((i + 1) % width == 0) 
+        {
+            fprintf(outputFP, "\n");
+        }
     }
 
     fclose(inputFP);
