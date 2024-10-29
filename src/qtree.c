@@ -231,6 +231,10 @@ QTNode *load_preorder_qt(char *filename)
 
 void save_preorder_helper(QTNode *node, FILE *fp)
 {
+    if(node == NULL)
+    {
+        return;
+    }
     char nodeOfLeaf = node->nodeOrLeaf;
     unsigned char intensity = node->intensity;
     unsigned short height = node->height;
@@ -240,22 +244,18 @@ void save_preorder_helper(QTNode *node, FILE *fp)
     fprintf(fp, "%c %c %d %d %d %d\n", nodeOfLeaf, intensity, row, height, col, width);
     if(node->child1 != NULL)
     {
-        fprintf(fp, "   ");
         save_preorder_helper(node->child1, fp);
     }
     if(node->child2 != NULL)
     {
-        fprintf(fp, "   ");
         save_preorder_helper(node->child2, fp);
     }
     if(node->child3 != NULL)
     {
-        fprintf(fp, "   ");
         save_preorder_helper(node->child3, fp);
     }
     if(node->child4 != NULL)
     {
-        fprintf(fp, "   ");
         save_preorder_helper(node->child4, fp);
     }
 }
