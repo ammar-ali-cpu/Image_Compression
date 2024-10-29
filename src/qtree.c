@@ -120,18 +120,20 @@ void ppm_helper(QTNode *root, FILE *fp)
         return;
     }
 
-    if (root->nodeOrLeaf == 'L') {
-        for (unsigned int i = 0; i < root->height; i++) {
-            for (unsigned int j = 0; j < root->width; j++) {
-                // Write the intensity value 3 times for R, G, B channels (since grayscale)
-                fprintf(fp, " %d %d %d", root->intensity, root->intensity, root->intensity);
+    if (root->nodeOrLeaf == 'L') 
+    {
+        for (unsigned int rows = 0; rows < root->height; rows++) 
+        {
+            for (unsigned int cols = 0; cols < root->width; cols++) 
+            {
+                int intensity = root->intensity;
+                fprintf(fp, " %d %d %d\n", intensity, intensity, intensity);
             }
-            fprintf(fp, "\n");  // New line after each row
+            //fprintf(fp, "\n");
         }
     }
     else
     {
-        // If it's a non-leaf node, recursively process each child
         ppm_helper(root->child1, fp);
         ppm_helper(root->child2, fp);
         ppm_helper(root->child3, fp);
