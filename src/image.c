@@ -89,7 +89,7 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
     fscanf(inputFP, "%d", &maxIntensity);
     fprintf(outputFP, "%s\n%d %d\n%d", p3, width, height, maxIntensity);
 
-    int numOfPixels = height*width;
+    //int numOfPixels = height*width;
 
     fclose(inputFP);
     fclose(outputFP);
