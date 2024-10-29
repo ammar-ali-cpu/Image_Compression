@@ -157,93 +157,33 @@ void save_qtree_as_ppm(QTNode *root, char *filename)
     fclose(fp); 
 }
 
-QTNode *load_preorder_helper(FILE *fp)
-{
-    char leafOfNode = 'X';
-    int intensity = 0;
-    int row = 0;
-    int height = 0;
-    int col = 0;
-    int width = 0;
-    fscanf(fp, "%c %d %d %d %d %d", &leafOfNode, &intensity, &row, &height, &col, &width);
-    if(leafOfNode != 'N' || leafOfNode != 'L')
-    {
-        return NULL;
-    }
-
-    QTNode *nodeToReturn = malloc(sizeof(QTNode));
-    nodeToReturn->intensity = intensity;
-    nodeToReturn->row = row;
-    nodeToReturn->height = height;
-    nodeToReturn->col = col;
-    nodeToReturn->width = width;
-    nodeToReturn->child1 = NULL;
-    nodeToReturn->child2 = NULL;
-    nodeToReturn->child3 = NULL;
-    nodeToReturn->child4 = NULL;
-
-    if(leafOfNode == 'N')
-    {
-        if(height == 1)
-        {
-            nodeToReturn->child1 = load_preorder_helper(fp);
-            nodeToReturn->child2 = load_preorder_helper(fp);
-            nodeToReturn->child3 = NULL;
-            nodeToReturn->child4 = NULL;
-        }
-        else if(width == 1)
-        {
-            nodeToReturn->child1 = load_preorder_helper(fp);
-            nodeToReturn->child2 = NULL;
-            nodeToReturn->child3 = load_preorder_helper(fp);
-            nodeToReturn->child4 = NULL;
-        }
-        else
-        {
-            nodeToReturn->child1 = load_preorder_helper(fp);
-            nodeToReturn->child2 = load_preorder_helper(fp);
-            nodeToReturn->child3 = load_preorder_helper(fp);
-            nodeToReturn->child4 = load_preorder_helper(fp);
-        }
-        
-    }
-    return nodeToReturn;
-}
-
-// QTNode *load_preorder_helper(FILE *fp) 
+// QTNode *load_preorder_helper(FILE *fp)
 // {
-//     char nodeType;  // To hold either 'N' for internal node or 'L' for leaf node
+//     char leafOfNode = 'X';
 //     int intensity = 0;
 //     int row = 0;
 //     int height = 0;
 //     int col = 0;
 //     int width = 0;
-
-//     // Read the node information from the file
-//     if (fscanf(fp, " %c %d %d %d %d %d", &nodeType, &intensity, &row, &height, &col, &width) != 6) 
+//     fscanf(fp, "%c %d %d %d %d %d", &leafOfNode, &intensity, &row, &height, &col, &width);
+//     if(leafOfNode != 'N' || leafOfNode != 'L')
 //     {
-//         return NULL;  // Return NULL if we don't read exactly 6 items
+//         return NULL;
 //     }
 
 //     QTNode *nodeToReturn = malloc(sizeof(QTNode));
-//     if (nodeToReturn == NULL) 
-//     {
-//         fprintf(stderr, "Memory allocation failed\n");
-//         return NULL;  // Return NULL if memory allocation fails
-//     }
-
-//     // Set the properties of the current node
 //     nodeToReturn->intensity = intensity;
 //     nodeToReturn->row = row;
 //     nodeToReturn->height = height;
 //     nodeToReturn->col = col;
 //     nodeToReturn->width = width;
+//     nodeToReturn->child1 = NULL;
+//     nodeToReturn->child2 = NULL;
+//     nodeToReturn->child3 = NULL;
+//     nodeToReturn->child4 = NULL;
 
-//     // Check if this node is an internal node or a leaf node
-//     if (nodeType == 'N') 
+//     if(leafOfNode == 'N')
 //     {
-//         // If it's an internal node, recursively load the children
-//         nodeToReturn->nodeOrLeaf = 'N';  // Set node type to internal
 //         if(height == 1)
 //         {
 //             nodeToReturn->child1 = load_preorder_helper(fp);
@@ -265,19 +205,73 @@ QTNode *load_preorder_helper(FILE *fp)
 //             nodeToReturn->child3 = load_preorder_helper(fp);
 //             nodeToReturn->child4 = load_preorder_helper(fp);
 //         }
-//     } 
-//     else if (nodeType == 'L') 
-//     {
-//         // If it's a leaf node, set the node type to leaf and initialize children to NULL
-//         nodeToReturn->nodeOrLeaf = 'L';  // Set node type to leaf
-//         nodeToReturn->child1 = NULL;  // Leaf nodes do not have children
-//         nodeToReturn->child2 = NULL;
-//         nodeToReturn->child3 = NULL;
-//         nodeToReturn->child4 = NULL;
+        
 //     }
-
-//     return nodeToReturn;  // Return the constructed node
+//     return nodeToReturn;
 // }
+
+QTNode *load_preorder_helper(FILE *fp) 
+{
+    char leafOrNode;  
+    int intensity = 0;
+    int row = 0;
+    int height = 0;
+    int col = 0;
+    int width = 0;
+
+    if (fscanf(fp, " %c %d %d %d %d %d", &leafOrNode, &intensity, &row, &height, &col, &width) != 6) 
+    {
+        return NULL; 
+    }
+
+    QTNode *nodeToReturn = malloc(sizeof(QTNode));
+    // if (nodeToReturn == NULL) 
+    // {
+    //     fprintf(stderr, "Memory allocation failed\n");
+    //     return NULL;  
+    // }
+    nodeToReturn->intensity = intensity;
+    nodeToReturn->row = row;
+    nodeToReturn->height = height;
+    nodeToReturn->col = col;
+    nodeToReturn->width = width;
+
+    if(leafOrNode == 'N') 
+    {
+        nodeToReturn->nodeOrLeaf = leafOrNode; 
+        if(height == 1)
+        {
+            nodeToReturn->child1 = load_preorder_helper(fp);
+            nodeToReturn->child2 = load_preorder_helper(fp);
+            nodeToReturn->child3 = NULL;
+            nodeToReturn->child4 = NULL;
+        }
+        else if(width == 1)
+        {
+            nodeToReturn->child1 = load_preorder_helper(fp);
+            nodeToReturn->child2 = NULL;
+            nodeToReturn->child3 = load_preorder_helper(fp);
+            nodeToReturn->child4 = NULL;
+        }
+        else
+        {
+            nodeToReturn->child1 = load_preorder_helper(fp);
+            nodeToReturn->child2 = load_preorder_helper(fp);
+            nodeToReturn->child3 = load_preorder_helper(fp);
+            nodeToReturn->child4 = load_preorder_helper(fp);
+        }
+    } 
+    else if (leafOrNode == 'L') 
+    {
+        nodeToReturn->nodeOrLeaf = leafOrNode;  
+        nodeToReturn->child1 = NULL;  
+        nodeToReturn->child2 = NULL;
+        nodeToReturn->child3 = NULL;
+        nodeToReturn->child4 = NULL;
+    }
+
+    return nodeToReturn;  
+}
 
 
 QTNode *load_preorder_qt(char *filename) 
