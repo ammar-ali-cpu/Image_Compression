@@ -157,9 +157,47 @@ void save_qtree_as_ppm(QTNode *root, char *filename)
     fclose(fp); 
 }
 
+QTNode *load_preorder_helper(FILE *fp)
+{
+    char leafOfNode = 'X';
+    int intensity = 0;
+    int row = 0;
+    int height = 0;
+    int col = 0;
+    int width = 0;
+    fscanf(fp, "%c %d %d %d %d %d", &leafOfNode, &intensity, &row, &height, &col, &width);
+    if(leafOfNode == 'X')
+    {
+        return NULL;
+    }
+
+    QTNode *nodeToReturn = malloc(sizeof(QTNode));
+    nodeToReturn->intensity = intensity;
+    nodeToReturn->row = row;
+    nodeToReturn->height = height;
+    nodeToReturn->col = col;
+    nodeToReturn->width = width;
+
+    if(leafOfNode == 'N')
+    {
+        nodeToReturn->child1 = load_preorder_helper(fp);
+        nodeToReturn->child2 = load_preorder_helper(fp);
+        nodeToReturn->child3 = load_preorder_helper(fp);
+        nodeToReturn->child4 = load_preorder_helper(fp);
+    }
+    return nodeToReturn;
+}
+
+
 QTNode *load_preorder_qt(char *filename) 
 {
-    (void)filename;
+    FILE *fp;
+    if ((fp = fopen(filename, "r")) == NULL)
+    {
+        printf("Error: cannot open file");
+    }
+    load_preorder_helper(fp);
+    fclose(fp);
     return NULL;
 }
 
