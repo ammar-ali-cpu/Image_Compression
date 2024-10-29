@@ -92,7 +92,7 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
     unsigned int numOfPixels = height*width;
     int msgLength = strlen(message);
     //printf("%d %d", numOfPixels ,msgLength);
-    unsigned int pixelsEncoded = -1;
+    unsigned int pixelsEncoded = 0;
     int charIndex = 0;
     int bitIndex = 0;
     //int ended = 0;
@@ -153,6 +153,7 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
     }
     fclose(inputFP);
     fclose(outputFP);
+    printf("\n%d\n",pixelsEncoded);
     return pixelsEncoded;
 }
 
