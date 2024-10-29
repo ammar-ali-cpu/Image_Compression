@@ -123,7 +123,7 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
 
     fclose(inputFP);
     fclose(outputFP);
-    return 0;
+    return pixelsEncoded;
 }
 
 char *reveal_message(char *input_filename) {
