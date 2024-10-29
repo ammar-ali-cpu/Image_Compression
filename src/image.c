@@ -89,11 +89,40 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
     fscanf(inputFP, "%d", &maxIntensity);
     fprintf(outputFP, "%s\n%d %d\n%d", p3, width, height, maxIntensity);
 
-    //int numOfPixels = height*width;
+    int numOfPixels = height*width;
+    int msgLength = strlen(message);
+    //printf("%d %d", numOfPixels ,msgLength);
+    unsigned int pixelsEncoded = 0;
+    int charIndex = 0;
+    int bitIndex = 0;
+
+    for(int i = 0; i < numOfPixels; i++)
+    {
+        int currIntensity;
+        fscanf(inputFP, "%d", &currIntensity);
+        int waste1 =0, waste2 =0;
+        fscanf(inputFP, " %d %d", &waste1, &waste2);
+
+        if(charIndex < msgLength)
+        {
+            unsigned char currChar = message[charIndex];
+            int bitToHide = (currChar >> (7 - bitIndex)) & 1;
+            currIntensity = (currIntensity & ~0x1) | bitToHide;
+
+            bitIndex++;
+            if(bitIndex == 8)
+            {
+                bitIndex = 0;
+                charIndex++;
+                pixelsEncoded++;
+            }
+        }
+        fprintf(outputFP, "%d %d %d", currIntensity, currIntensity, currIntensity);
+
+    }
 
     fclose(inputFP);
     fclose(outputFP);
-    (void)message;
     return 0;
 }
 
