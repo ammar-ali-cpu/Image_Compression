@@ -4,13 +4,11 @@
 static double avg_intensity_and_rmse(Image *image, unsigned int height, unsigned int width, unsigned int row, unsigned int col, double *rmse)
 {
     double sum = 0.0;
-    //double sum_square = 0.0;
     for(unsigned int i = row; i < row + height; i++)
     {
         for(unsigned int j = col; j < col + width; j++)
         {
             sum += get_image_intensity(image, i, j);
-            //sum_square += (get_image_intensity(image, i, j)) * (get_image_intensity(image, i, j));
         }
     }
     double numOfPixels = height * width;
@@ -27,14 +25,6 @@ static double avg_intensity_and_rmse(Image *image, unsigned int height, unsigned
     }
     double avgOfSquaredDifference = squaredDifference/numOfPixels;
     *rmse = sqrt(avgOfSquaredDifference);
-
-    //*rmse = sqrt((sum_square/numOfPixels) - (avg*avg));
-    //printf("%f ", avg);
-
-    //unsigned char avgChar = (unsigned char)avg;
-
-    //printf("%d ", avgChar);
-
 
     return avg;
 }
@@ -123,10 +113,49 @@ void delete_quadtree(QTNode *root)
     free(root);
 }
 
+void ppm_helper(QTNode *root, FILE *fp)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+
+    if (root->nodeOrLeaf == 'L') {
+        for (unsigned int i = 0; i < root->height; i++) {
+            for (unsigned int j = 0; j < root->width; j++) {
+                // Write the intensity value 3 times for R, G, B channels (since grayscale)
+                fprintf(fp, " %d %d %d", root->intensity, root->intensity, root->intensity);
+            }
+            fprintf(fp, "\n");  // New line after each row
+        }
+    }
+    else
+    {
+        // If it's a non-leaf node, recursively process each child
+        ppm_helper(root->child1, fp);
+        ppm_helper(root->child2, fp);
+        ppm_helper(root->child3, fp);
+        ppm_helper(root->child4, fp);
+    }
+}
+
 void save_qtree_as_ppm(QTNode *root, char *filename) 
 {
+    FILE *fp;
+    if ((fp = fopen(filename, "w")) == NULL)
+    {
+        printf("Error: cannot open file");
+    }
+    fprintf(fp, "P3");
+    fclose(fp);
+    fp = fopen(filename, "a");
+    int height = root->height;
+    int width = root->width;
+    fprintf(fp, "\n%d %d", width, height);
+    fprintf(fp, "\n255");
+    ppm_helper(root, fp);
+    fclose(fp); 
     (void)root;
-    (void)filename;
 }
 
 QTNode *load_preorder_qt(char *filename) 

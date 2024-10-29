@@ -12,31 +12,6 @@ Image *load_image(char *filename)
     
     char p3[3];
     fscanf(fp, "%s", p3);
-
-    /*
-    char checkForComment;
-    fscanf(fp, "%s", &checkForComment);
-    if (checkForComment == '#')
-    {
-       while (fgetc(fp) != '\n');
-       fscanf(fp, "%s", &checkForComment);
-
-    } 
-    else 
-    {
-        printf("%c",checkForComment);
-        ungetc(checkForComment, fp);
-    }
-    */
-    // char commentLine[200];
-    // int j =0;
-    // puts(p3);
-    // while(j<3)
-    // {
-    //     fgets(commentLine, 200, fp);
-    //     puts(commentLine);
-    //     j++;
-    // }
     
     char checkForComment;
     while (1) 

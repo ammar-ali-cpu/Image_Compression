@@ -45,14 +45,14 @@ int main()
 //     delete_image(image);
 
 //     /******************************* save_qtree_as_ppm *******************************/
-//     image = load_image("images/building1.ppm"); 
-//     root = create_quadtree(image, 25);
-//     save_qtree_as_ppm(root, "tests/output/save_qtree_as_ppm1.ppm");
-//     // See tests/expected/save_qtree_as_ppm1.ppm for the expected file.
-//     // Visual inspection is generally not sufficient to determine if your output image is correct.
-//     // You will need to write code to more rigorously check your output image for correctness.
-//     delete_image(image); 
-//     delete_quadtree(root);
+    image = load_image("images/building1.ppm"); 
+    root = create_quadtree(image, 25);
+    save_qtree_as_ppm(root, "tests/output/save_qtree_as_ppm1.ppm");
+    // See tests/expected/save_qtree_as_ppm1.ppm for the expected file.
+    // Visual inspection is generally not sufficient to determine if your output image is correct.
+    // You will need to write code to more rigorously check your output image for correctness.
+    delete_image(image); 
+    delete_quadtree(root);
 
 //     /******************************* hide_message and reveal_message *******************************/
 //     prepare_input_image_file("wolfie-tiny.ppm");
