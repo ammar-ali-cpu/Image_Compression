@@ -167,7 +167,7 @@ QTNode *load_preorder_helper(FILE *fp)
     int col = 0;
     int width = 0;
 
-    if (fscanf(fp, "%c %d %d %d %d %d", &leafOrNode, &intensity, &row, &height, &col, &width) != 6) 
+    if (fscanf(fp, " %c %d %d %d %d %d", &leafOrNode, &intensity, &row, &height, &col, &width) != 6) 
     {
         return NULL; 
     }
