@@ -177,6 +177,10 @@ QTNode *load_preorder_helper(FILE *fp)
     nodeToReturn->height = height;
     nodeToReturn->col = col;
     nodeToReturn->width = width;
+    nodeToReturn->child1 = NULL;
+    nodeToReturn->child2 = NULL;
+    nodeToReturn->child3 = NULL;
+    nodeToReturn->child4 = NULL;
 
     if(leafOfNode == 'N')
     {
