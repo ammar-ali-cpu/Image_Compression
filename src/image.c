@@ -90,33 +90,6 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
     fprintf(outputFP, "%s\n%d %d\n%d", p3, width, height, maxIntensity);
 
     int numOfPixels = height*width;
-    int ch_index = 0;
-    int bits_written = 0;
-
-    // Process each pixel intensity
-    for ( int i = 0; i < numOfPixels; i++) {
-        int intensity;
-        fscanf(inputFP, "%d", &intensity);
-
-        int message_length = strlen(message);
-        if (ch_index < message_length) {
-            // Extract the current bit from the character's ASCII value
-            char current_char = message[ch_index];
-            int bit_position = bits_written % 8;
-            int bit = (current_char >> (7 - bit_position)) & 1;
-
-            // Modify LSB to encode the bit
-            intensity = (intensity & ~1) | bit;
-            bits_written++;
-
-            // Move to the next character after writing 8 bits
-            if (bits_written % 8 == 0) {
-                ch_index++;
-            }
-        }
-
-        fprintf(outputFP, "%d ", intensity);
-    }
 
     fclose(inputFP);
     fclose(outputFP);
