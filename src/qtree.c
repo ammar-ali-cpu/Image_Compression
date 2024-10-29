@@ -228,8 +228,50 @@ QTNode *load_preorder_qt(char *filename)
     return root;
 }
 
+
+void save_preorder_helper(QTNode *node, FILE *fp)
+{
+    char nodeOfLeaf = node->nodeOrLeaf;
+    unsigned char intensity = node->intensity;
+    unsigned short height = node->height;
+    unsigned short width = node->width;
+    unsigned int row = node->row;
+    unsigned int col = node->col;
+    fprintf(fp, "%c %c %d %d %d %d\n", nodeOfLeaf, intensity, row, height, col, width);
+    if(node->child1 != NULL)
+    {
+        fprintf(fp, "   ");
+        save_preorder_helper(node->child1, fp);
+    }
+    if(node->child2 != NULL)
+    {
+        fprintf(fp, "   ");
+        save_preorder_helper(node->child2, fp);
+    }
+    if(node->child3 != NULL)
+    {
+        fprintf(fp, "   ");
+        save_preorder_helper(node->child3, fp);
+    }
+    if(node->child4 != NULL)
+    {
+        fprintf(fp, "   ");
+        save_preorder_helper(node->child4, fp);
+    }
+}
+
 void save_preorder_qt(QTNode *root, char *filename) 
 {
+    FILE *fp;
+    if ((fp = fopen(filename, "w")) == NULL)
+    {
+        printf("Error: cannot open file");
+    }
+    fclose(fp);
+    fopen(filename, "a");
+    save_preorder_helper(root, fp);
+
+    fclose(fp);
     (void)root;
     (void)filename;
 }
