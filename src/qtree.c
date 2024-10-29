@@ -119,7 +119,6 @@ void ppm_helper(QTNode *root, FILE *fp)
     {
         return;
     }
-
     if (root->nodeOrLeaf == 'L') 
     {
         for (unsigned int rows = 0; rows < root->height; rows++) 
@@ -129,7 +128,6 @@ void ppm_helper(QTNode *root, FILE *fp)
                 int intensity = root->intensity;
                 fprintf(fp, " %d %d %d\n", intensity, intensity, intensity);
             }
-            //fprintf(fp, "\n");
         }
     }
     else
@@ -157,7 +155,6 @@ void save_qtree_as_ppm(QTNode *root, char *filename)
     fprintf(fp, "\n255");
     ppm_helper(root, fp);
     fclose(fp); 
-    (void)root;
 }
 
 QTNode *load_preorder_qt(char *filename) 
