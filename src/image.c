@@ -111,7 +111,7 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
             unsigned char currChar = message[charIndex];
             bitToHide = (currChar >> (7 - bitIndex)) & 1;
         }
-        else if(/*(ended == 0) &&*/ (pixelsEncoded < (numOfPixels/8)) && nuller < 8)
+        else if(/*(ended == 0) &&*/ (pixelsEncoded < (numOfPixels/8))/*&& nuller < 8*/) //maybe not 8
         {
             bitToHide = 0;
             printf("condition reached");
