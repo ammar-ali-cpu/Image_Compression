@@ -225,10 +225,27 @@ QTNode *load_preorder_helper(FILE *fp)
     {
         // If it's an internal node, recursively load the children
         nodeToReturn->nodeOrLeaf = 'N';  // Set node type to internal
-        nodeToReturn->child1 = load_preorder_helper(fp);
-        nodeToReturn->child2 = load_preorder_helper(fp);
-        nodeToReturn->child3 = load_preorder_helper(fp);
-        nodeToReturn->child4 = load_preorder_helper(fp);
+        if(height == 1)
+        {
+            nodeToReturn->child1 = load_preorder_helper(fp);
+            nodeToReturn->child2 = load_preorder_helper(fp);
+            nodeToReturn->child3 = NULL;
+            nodeToReturn->child4 = NULL;
+        }
+        else if(width == 1)
+        {
+            nodeToReturn->child1 = load_preorder_helper(fp);
+            nodeToReturn->child2 = NULL;
+            nodeToReturn->child3 = load_preorder_helper(fp);
+            nodeToReturn->child4 = NULL;
+        }
+        else
+        {
+            nodeToReturn->child1 = load_preorder_helper(fp);
+            nodeToReturn->child2 = load_preorder_helper(fp);
+            nodeToReturn->child3 = load_preorder_helper(fp);
+            nodeToReturn->child4 = load_preorder_helper(fp);
+        }
     } 
     else if (nodeType == 'L') 
     {
