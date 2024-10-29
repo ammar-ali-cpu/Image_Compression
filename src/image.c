@@ -154,6 +154,7 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
     fclose(inputFP);
     fclose(outputFP);
     printf("\n%d\n",pixelsEncoded);
+    pixelsEncoded--;
     return pixelsEncoded;
 }
 
