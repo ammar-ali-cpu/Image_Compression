@@ -170,7 +170,7 @@ char *reveal_message(char *input_filename)
     int maxIntensity;
     fscanf(inputFP, "%s %d %d %d", p3, &width, &height, &maxIntensity);
 
-    int numOfPixels = width * height;
+    int numOfPixels = height * width;
     char *message = malloc((numOfPixels / 8) + 1); 
     int bitIndex = 0;
     int currChar = 0;
@@ -178,13 +178,13 @@ char *reveal_message(char *input_filename)
 
     for (int i = 0; i < numOfPixels; i++) 
     {
-        int pixel;
-        fscanf(inputFP, "%d", &pixel);
+        int currPixel;
+        fscanf(inputFP, "%d", &currPixel);
         int waste1 = 0;
         int waste2 = 0;
         fscanf(inputFP, " %d %d", &waste1, &waste2); 
 
-        int bit = pixel & 0x1;
+        int bit = currPixel & 0x1;
         message[currChar] = (message[currChar] << 1) | bit;
         
         bitIndex++;
