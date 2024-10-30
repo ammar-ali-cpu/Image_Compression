@@ -75,6 +75,96 @@ unsigned char get_image_intensity(Image *image, unsigned int row, unsigned int c
     return image->imageData[row*image->width +col];
 }
 
+// unsigned int hide_message(char *message, char *input_filename, char *output_filename) 
+// {
+//     FILE *inputFP = fopen(input_filename, "r");
+//     FILE *outputFP = fopen(output_filename, "w");
+    
+//     char p3[3];
+//     fscanf(inputFP, "%s", p3);
+//     int width =0;
+//     int height =0;
+//     fscanf(inputFP, "%d %d", &width, &height);
+//     int maxIntensity= 0;
+//     fscanf(inputFP, "%d", &maxIntensity);
+//     fprintf(outputFP, "%s\n%d %d\n%d\n", p3, width, height, maxIntensity);
+
+//     unsigned int numOfPixels = height*width;
+//     int msgLength = strlen(message);
+//     //printf("%d %d", numOfPixels ,msgLength);
+//     unsigned int pixelsEncoded = 0;
+//     int charIndex = 0;
+//     int bitIndex = 0;
+//     //int ended = 0;
+//     int nuller =0;
+
+//     printf("%s", message);
+//     for(unsigned int i = 0; i < numOfPixels; i++)
+//     {
+//         int currIntensity;
+//         fscanf(inputFP, "%d", &currIntensity);
+//         int waste1 =0, waste2 =0;
+//         fscanf(inputFP, " %d %d", &waste1, &waste2);
+//         int bitToHide =0;
+
+//         if((charIndex < msgLength) && (pixelsEncoded < (numOfPixels/8)) && (i < numOfPixels-8))
+//         {
+//             unsigned char currChar = message[charIndex];
+//             bitToHide = (currChar >> (7 - bitIndex)) & 1;
+//             printf("curr char is %c\n",currChar);
+//         }
+//         else if(/*(ended == 0) &&*/ (pixelsEncoded < (numOfPixels/8))&& nuller < 8) //maybe not 8
+//         {
+//             bitToHide = 0;
+//             //printf("condition reached");
+//             nuller++;
+//         }
+//         else
+//         {
+//             fprintf(outputFP, "%d %d %d ", currIntensity, currIntensity, currIntensity);
+//             if ((i + 1) % width == 0) 
+//             {
+//                 fprintf(outputFP, "\n");
+//             }
+//             continue;
+//         }
+
+//         currIntensity = (currIntensity & ~0x1) | bitToHide;
+//         //printf("currIntensity: %x \n",currIntensity);
+//         bitIndex++;
+//         if(bitIndex == 8)
+//         {
+//             bitIndex = 0;
+//             charIndex++;
+//             if (charIndex <= msgLength) 
+//             {
+//                 pixelsEncoded++;
+//                 printf("pixels encoded: %d",pixelsEncoded);
+//             }
+//             if (charIndex >= msgLength) 
+//             {
+//                 //ended = 1;  
+//             }
+//         }
+
+//         fprintf(outputFP, "%d %d %d ", currIntensity, currIntensity, currIntensity);
+
+//         if ((i + 1) % width == 0) 
+//         {
+//             fprintf(outputFP, "\n");
+//         }
+//     }
+//     fclose(inputFP);
+//     fclose(outputFP);
+//     //pixelsEncoded++;
+//     //if((unsigned)msgLength > (numOfPixels/8))
+//     //{
+//     //    pixelsEncoded-=2;
+//     //}
+//     printf("\n%d\n",pixelsEncoded);
+//     return pixelsEncoded;
+// }
+
 unsigned int hide_message(char *message, char *input_filename, char *output_filename) 
 {
     FILE *inputFP = fopen(input_filename, "r");
@@ -82,87 +172,70 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
     
     char p3[3];
     fscanf(inputFP, "%s", p3);
-    int width =0;
-    int height =0;
+    int width = 0;
+    int height = 0;
     fscanf(inputFP, "%d %d", &width, &height);
-    int maxIntensity= 0;
+    int maxIntensity = 0;
     fscanf(inputFP, "%d", &maxIntensity);
     fprintf(outputFP, "%s\n%d %d\n%d\n", p3, width, height, maxIntensity);
 
-    unsigned int numOfPixels = height*width;
-    int msgLength = strlen(message);
-    //printf("%d %d", numOfPixels ,msgLength);
+    unsigned int numOfPixels = width * height;
+    unsigned int max_chars = numOfPixels / 8;   // Maximum characters that can be encoded (including null)
     unsigned int pixelsEncoded = 0;
+
+    int msgLength = strlen(message);
     int charIndex = 0;
     int bitIndex = 0;
-    //int ended = 0;
-    int nuller =0;
 
-    printf("%s", message);
-    for(unsigned int i = 0; i < numOfPixels; i++)
+    // Encode each character in the message, up to max_chars - 1 if there's space for a null terminator
+    for (unsigned int i = 0; i < numOfPixels; i++) 
     {
         int currIntensity;
         fscanf(inputFP, "%d", &currIntensity);
-        int waste1 =0, waste2 =0;
+        int waste1 = 0, waste2 = 0;
         fscanf(inputFP, " %d %d", &waste1, &waste2);
-        int bitToHide =0;
 
-        if((charIndex < msgLength) && (pixelsEncoded < (numOfPixels/8)) && (i < numOfPixels-8))
+        int bitToHide = 0;
+
+        if (charIndex < msgLength && pixelsEncoded < max_chars - 1) 
         {
+            // Get current character and retrieve the next bit to encode
             unsigned char currChar = message[charIndex];
             bitToHide = (currChar >> (7 - bitIndex)) & 1;
-            printf("curr char is %c\n",currChar);
-        }
-        else if(/*(ended == 0) &&*/ (pixelsEncoded < (numOfPixels/8))&& nuller < 8) //maybe not 8
+        } 
+        else if (charIndex == msgLength && pixelsEncoded < max_chars) 
         {
+            // Encoding null character after last character of message
             bitToHide = 0;
-            //printf("condition reached");
-            nuller++;
-        }
-        else
+        } 
+        else 
         {
+            // If finished encoding, write the unmodified pixel
             fprintf(outputFP, "%d %d %d ", currIntensity, currIntensity, currIntensity);
             if ((i + 1) % width == 0) 
-            {
                 fprintf(outputFP, "\n");
-            }
             continue;
         }
 
+        // Set the LSB of currIntensity with the current bit
         currIntensity = (currIntensity & ~0x1) | bitToHide;
-        //printf("currIntensity: %x \n",currIntensity);
+        fprintf(outputFP, "%d %d %d ", currIntensity, currIntensity, currIntensity);
+
         bitIndex++;
-        if(bitIndex == 8)
+        if (bitIndex == 8) 
         {
             bitIndex = 0;
             charIndex++;
-            if (charIndex <= msgLength) 
-            {
-                pixelsEncoded++;
-                printf("pixels encoded: %d",pixelsEncoded);
-            }
-            if (charIndex >= msgLength) 
-            {
-                //ended = 1;  
-            }
+            pixelsEncoded++;
         }
-
-        fprintf(outputFP, "%d %d %d ", currIntensity, currIntensity, currIntensity);
 
         if ((i + 1) % width == 0) 
-        {
             fprintf(outputFP, "\n");
-        }
     }
+
     fclose(inputFP);
     fclose(outputFP);
-    //pixelsEncoded++;
-    //if((unsigned)msgLength > (numOfPixels/8))
-    //{
-    //    pixelsEncoded-=2;
-    //}
-    printf("\n%d\n",pixelsEncoded);
-    return pixelsEncoded;
+    return pixelsEncoded;  // Number of characters encoded, excluding the null terminator
 }
 
 char *reveal_message(char *input_filename) 
