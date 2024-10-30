@@ -99,7 +99,7 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
     int nuller =0;
 
     printf("%s", message);
-    for(unsigned int i = 0; i <= numOfPixels; i++)
+    for(unsigned int i = 0; i < numOfPixels; i++)
     {
         int currIntensity;
         fscanf(inputFP, "%d", &currIntensity);
@@ -154,7 +154,7 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
     }
     fclose(inputFP);
     fclose(outputFP);
-    //pixelsEncoded++;
+    pixelsEncoded++;
     printf("\n%d\n",pixelsEncoded);
     return pixelsEncoded;
 }
