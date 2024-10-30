@@ -56,7 +56,7 @@ int main()
 
     /******************************* hide_message and reveal_message *******************************/
     prepare_input_image_file("wolfie-tiny.ppm");
-    hide_message("012", "images/wolfie-tiny.ppm", "tests/output/hide_message1.ppm");
+    hide_message("01234567890123456789012345678901234567890", "images/wolfie-tiny.ppm", "tests/output/hide_message1.ppm");
     char *message = reveal_message("tests/output/hide_message1.ppm");
     printf("Message: %s\n", message);
     free(message);
