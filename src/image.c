@@ -167,8 +167,55 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
 
 char *reveal_message(char *input_filename) 
 {
-    (void)input_filename;
-    return NULL;
+        FILE *inputFP = fopen(input_filename, "r");
+    if (inputFP == NULL) {
+        return NULL;  // Return NULL if the file cannot be opened
+    }
+
+    // Skip the header of the PPM file (format, width, height, and max intensity)
+    char p3[3];
+    int width, height, maxIntensity;
+    fscanf(inputFP, "%s %d %d %d", p3, &width, &height, &maxIntensity);
+
+    // Calculate the number of pixels
+    unsigned int numOfPixels = width * height;
+    char *message = malloc((numOfPixels / 8) + 1); // Allocate memory for message
+    if (message == NULL) {
+        fclose(inputFP);
+        return NULL;
+    }
+
+    int bitIndex = 0;
+    int charIndex = 0;
+    message[charIndex] = 0; // Initialize the first character
+
+    // Read each pixel and extract the hidden bits
+    for (unsigned int i = 0; i < numOfPixels; i++) {
+        int pixel;
+        fscanf(inputFP, "%d", &pixel);
+        int waste1 = 0, waste2 = 0;
+        fscanf(inputFP, " %d %d", &waste1, &waste2); // Ignore duplicate RGB values in grayscale
+
+        // Extract the LSB from the current pixel and set it in the message
+        int bit = pixel & 1;
+        message[charIndex] = (message[charIndex] << 1) | bit;
+        bitIndex++;
+
+        // Move to the next character after 8 bits
+        if (bitIndex == 8) {
+            if (message[charIndex] == '\0') {
+                break; // Stop if the null terminator is reached
+            }
+            charIndex++;
+            message[charIndex] = 0; // Initialize next character
+            bitIndex = 0;
+        }
+    }
+
+    fclose(inputFP);
+    return message;
+    //(void)input_filename;
+    //return NULL;
 }
 
 unsigned int hide_image(char *secret_image_filename, char *input_filename, char *output_filename) 
