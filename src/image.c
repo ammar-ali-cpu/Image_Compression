@@ -159,7 +159,7 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
     //pixelsEncoded++;
     if((unsigned)msgLength > (numOfPixels/8))
     {
-        pixelsEncoded--;
+        pixelsEncoded-=2;
     }
     printf("\n%d\n",pixelsEncoded);
     return pixelsEncoded;
