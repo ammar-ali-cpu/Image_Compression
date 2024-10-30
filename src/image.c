@@ -107,7 +107,7 @@ unsigned int hide_message(char *message, char *input_filename, char *output_file
         fscanf(inputFP, " %d %d", &waste1, &waste2);
         int bitToHide =0;
 
-        if((charIndex < msgLength) && (pixelsEncoded < (numOfPixels/8)))
+        if((charIndex < msgLength) && (pixelsEncoded < (numOfPixels/8)) && (i < numOfPixels-8))
         {
             unsigned char currChar = message[charIndex];
             bitToHide = (currChar >> (7 - bitIndex)) & 1;
