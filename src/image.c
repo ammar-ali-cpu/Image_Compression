@@ -165,41 +165,37 @@ char *reveal_message(char *input_filename)
     FILE *inputFP = fopen(input_filename, "r");
 
     char p3[3];
-    int width;
     int height; 
+    int width;
     int maxIntensity;
     fscanf(inputFP, "%s %d %d %d", p3, &width, &height, &maxIntensity);
 
-    unsigned int numOfPixels = width * height;
+    int numOfPixels = width * height;
     char *message = malloc((numOfPixels / 8) + 1); 
-    // if (message == NULL) {
-    //     fclose(inputFP);
-    //     return NULL;
-    // }
-
     int bitIndex = 0;
-    int charIndex = 0;
-    message[charIndex] = 0;
+    int currChar = 0;
+    message[currChar] = 0;
 
-    for (unsigned int i = 0; i < numOfPixels; i++) 
+    for (int i = 0; i < numOfPixels; i++) 
     {
         int pixel;
         fscanf(inputFP, "%d", &pixel);
-        int waste1 = 0, waste2 = 0;
+        int waste1 = 0;
+        int waste2 = 0;
         fscanf(inputFP, " %d %d", &waste1, &waste2); 
 
-        int bit = pixel & 1;
-        message[charIndex] = (message[charIndex] << 1) | bit;
+        int bit = pixel & 0x1;
+        message[currChar] = (message[currChar] << 1) | bit;
+        
         bitIndex++;
-
         if (bitIndex == 8) 
         {
-            if (message[charIndex] == '\0') 
+            if (message[currChar] == '\0') 
             {
                 break; 
             }
-            charIndex++;
-            message[charIndex] = 0;
+            currChar++;
+            message[currChar] = 0;
             bitIndex = 0;
         }
     }
