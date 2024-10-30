@@ -206,10 +206,77 @@ char *reveal_message(char *input_filename)
 
 unsigned int hide_image(char *secret_image_filename, char *input_filename, char *output_filename) 
 {
-    (void)secret_image_filename;
-    (void)input_filename;
-    (void)output_filename;
-    return 10;
+    FILE *inputFP = fopen(input_filename, "r");
+    FILE *secretFP = fopen(secret_image_filename, "r");
+    FILE *outputFP = fopen(output_filename, "w");
+
+    char sp3[3];
+    int swidth;
+    int sheight;
+    int smaxIntensity;
+    fscanf(inputFP, "%s", sp3);
+    fscanf(inputFP, "%d %d", &swidth, &sheight);
+    fscanf(inputFP, "%d", &smaxIntensity);
+    int snumOfPixels = swidth *sheight;
+
+    char p3[3];
+    int width;
+    int height;
+    int maxIntensity;
+    fscanf(inputFP, "%s", p3);
+    fscanf(inputFP, "%d %d", &width, &height);
+    fscanf(inputFP, "%d", &maxIntensity);
+    int numOfPixels = width * height;
+
+    if(numOfPixels <= snumOfPixels-16)
+    {
+        return 0;
+    }
+    fprintf(outputFP, "%s\n%d %d\n%d\n", p3, width, height, maxIntensity);
+
+    int currIntensity;
+    for(int w = 0; w < 8; w++)
+    {
+        fscanf(inputFP, "%d", &currIntensity);
+        int wbit = (swidth >> (7 - w)) & 0x1;
+        currIntensity = (currIntensity & ~0x1) | wbit;
+        fprintf(outputFP, "%d %d %d ", currIntensity, currIntensity, currIntensity);
+    }
+
+    for(int h = 0; h < 8; h++)
+    {
+        fscanf(inputFP, "%d", &currIntensity);
+        int hbit = (sheight >> (7 - h)) & 0x1;
+        currIntensity = (currIntensity & ~0x1) | hbit;
+        fprintf(outputFP, "%d %d %d ", currIntensity, currIntensity, currIntensity);
+    }
+
+    int toHide;
+    for(int i = 0; i < snumOfPixels; i++)
+    {
+        int waste1=0;
+        int waste2=0;
+        fscanf(secretFP, "%d %d %d", &toHide, &waste1, &waste2);
+        for(int j = 0; j < 8; j++)
+        {
+            int waster1=0;
+            int waster2=0;
+            fscanf(inputFP, "%d %d %d ",&currIntensity, &waster1, &waster2);
+            int bit = (toHide >> (7-j)) & 0x1;
+            currIntensity = (currIntensity & ~0x1) | bit;
+            fprintf(outputFP, "%d %d %d", currIntensity, currIntensity, currIntensity);
+        }
+    }
+
+    while (fscanf(inputFP, "%d", &currIntensity) != EOF) 
+    {
+        fprintf(outputFP, "%d %d %d ", currIntensity, currIntensity, currIntensity);
+    }
+
+    fclose(inputFP);
+    fclose(outputFP);
+    fclose(secretFP);
+    return 1;
 }
 
 void reveal_image(char *input_filename, char *output_filename) 
