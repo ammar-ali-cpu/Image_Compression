@@ -214,9 +214,9 @@ unsigned int hide_image(char *secret_image_filename, char *input_filename, char 
     int swidth;
     int sheight;
     int smaxIntensity;
-    fscanf(inputFP, "%s", sp3);
-    fscanf(inputFP, "%d %d", &swidth, &sheight);
-    fscanf(inputFP, "%d", &smaxIntensity);
+    fscanf(secretFP, "%s", sp3);
+    fscanf(secretFP, "%d %d", &swidth, &sheight);
+    fscanf(secretFP, "%d", &smaxIntensity);
     int snumOfPixels = swidth *sheight;
 
     char p3[3];
@@ -228,7 +228,7 @@ unsigned int hide_image(char *secret_image_filename, char *input_filename, char 
     fscanf(inputFP, "%d", &maxIntensity);
     int numOfPixels = width * height;
 
-    if(numOfPixels <= snumOfPixels-16)
+    if(numOfPixels <= (snumOfPixels*8)+16)
     {
         return 0;
     }
