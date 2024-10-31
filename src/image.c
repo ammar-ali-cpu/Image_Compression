@@ -208,6 +208,11 @@ unsigned int hide_image(char *secret_image_filename, char *input_filename, char 
 {
     FILE *inputFP = fopen(input_filename, "r");
     FILE *secretFP = fopen(secret_image_filename, "r");
+    {
+        fprintf(stderr, "Error opening file %s\n", secret_image_filename);
+        fclose(inputFP);
+        return 0;
+    }
     FILE *outputFP = fopen(output_filename, "w");
 
     char sp3[3];
@@ -230,6 +235,9 @@ unsigned int hide_image(char *secret_image_filename, char *input_filename, char 
 
     if(numOfPixels <= (snumOfPixels*8)+16)
     {
+        fclose(inputFP);
+        fclose(outputFP);
+        fclose(secretFP);
         return 0;
     }
     fprintf(outputFP, "%s\n%d %d\n%d\n", p3, width, height, maxIntensity);
