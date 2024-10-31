@@ -267,7 +267,9 @@ unsigned int hide_image(char *secret_image_filename, char *input_filename, char 
     int currIntensity;
     for(int w = 0; w < 8; w++)
     {
-        fscanf(inputFP, "%d", &currIntensity);
+        int waste1=0;
+        int waste2=0;
+        fscanf(inputFP, "%d %d %d ", &currIntensity, &waste1, &waste2);
         int wbit = (swidth >> (7 - w)) & 0x1;
         currIntensity = (currIntensity & ~0x1) | wbit;
         fprintf(outputFP, "%d %d %d ", currIntensity, currIntensity, currIntensity);
@@ -275,7 +277,9 @@ unsigned int hide_image(char *secret_image_filename, char *input_filename, char 
 
     for(int h = 0; h < 8; h++)
     {
-        fscanf(inputFP, "%d", &currIntensity);
+        int waste1=0;
+        int waste2=0;
+        fscanf(inputFP, "%d %d %d ", &currIntensity, &waste1, &waste2);
         int hbit = (sheight >> (7 - h)) & 0x1;
         currIntensity = (currIntensity & ~0x1) | hbit;
         fprintf(outputFP, "%d %d %d ", currIntensity, currIntensity, currIntensity);
