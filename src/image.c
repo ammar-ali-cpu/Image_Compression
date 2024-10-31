@@ -255,7 +255,7 @@ unsigned int hide_image(char *secret_image_filename, char *input_filename, char 
     int numOfPixels = width * height;
     printf("p3: %s width: %d height: %d maxIntensity: %d numOfPixels: %d\n", p3, width, height, maxIntensity, numOfPixels);
 
-    if(numOfPixels <= (snumOfPixels*8)+16)
+    if(numOfPixels < (snumOfPixels*8)+16)
     {
         fclose(inputFP);
         fclose(outputFP);
