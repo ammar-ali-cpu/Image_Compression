@@ -231,6 +231,14 @@ unsigned int hide_image(char *secret_image_filename, char *input_filename, char 
     int snumOfPixels = swidth *sheight;
     printf("sp3: %s swidth: %d sheight: %d smaxIntensity: %d snumOfPixel: %d\n", sp3, swidth, sheight, smaxIntensity, snumOfPixels);
 
+    if(swidth < 0 || sheight < 0)
+    {
+        fclose(inputFP);
+        fclose(secretFP);
+        fclose(outputFP);
+        return 0;
+    }
+
     char p3[3];
     int width=0;
     int height=0;
