@@ -312,6 +312,7 @@ unsigned int hide_image(char *secret_image_filename, char *input_filename, char 
     fclose(inputFP);
     fclose(outputFP);
     fclose(secretFP);
+    printf("done\n");
     return 1;
 }
 
@@ -327,8 +328,10 @@ void reveal_image(char *input_filename, char *output_filename)
     fscanf(inputFP, "%s", p3);
     fscanf(inputFP, "%d %d", &width, &height);
     fscanf(inputFP, "%d", &maxIntensity);
+    int numOfPixels = width *height;
+    printf("p3: %s width: %d height: %d maxIntensity: %d numOfPixels: %d\n", p3, width, height, maxIntensity, numOfPixels);
 
-    int swidth; 
+    int swidth=0; 
     int currNum;
     for(int i = 0; i < 8; i++)
     {
@@ -338,7 +341,7 @@ void reveal_image(char *input_filename, char *output_filename)
         swidth |= ((currNum & 1) << (7 - i));
     }
     
-    int sheight;
+    int sheight =0;
     for(int i = 0; i < 8; i++)
     {
         int waste1;
@@ -349,8 +352,9 @@ void reveal_image(char *input_filename, char *output_filename)
     fprintf(outputFP, "%s\n%d %d\n%d", p3, swidth, sheight, maxIntensity);
 
     int snumOfPixels = swidth * sheight;
+    printf("swidth: %d shieght: %d snum: %d/n", swidth, sheight, snumOfPixels);
 
-    for (int i = 0; i < snumOfPixels; i++) 
+    for (int i = 0; i < (snumOfPixels); i++) 
     {
         int pixel = 0;
         for (int j = 0; j < 8; j++) 
