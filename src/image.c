@@ -294,11 +294,13 @@ unsigned int hide_image(char *secret_image_filename, char *input_filename, char 
             fscanf(inputFP, "%d %d %d ",&currIntensity, &waster1, &waster2);
             int bit = (toHide >> (7-j)) & 0x1;
             currIntensity = (currIntensity & ~0x1) | bit;
-            fprintf(outputFP, "%d %d %d", currIntensity, currIntensity, currIntensity);
+            fprintf(outputFP, "%d %d %d ", currIntensity, currIntensity, currIntensity);
         }
     }
 
-    while (fscanf(inputFP, "%d", &currIntensity) != EOF) 
+    int waste11=0;
+    int waste22=0;
+    while (fscanf(inputFP, "%d %d %d ", &currIntensity, &waste11, &waste22) != EOF) 
     {
         fprintf(outputFP, "%d %d %d ", currIntensity, currIntensity, currIntensity);
     }
