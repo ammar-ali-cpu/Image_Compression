@@ -251,30 +251,11 @@ unsigned int hide_image(char *secret_image_filename, char *input_filename, char 
         }
     }
     fscanf(inputFP, "%d %d", &width, &height);
-    
-    // printf("Attempting to read input file...\n");
-    // printf("Reading image type...\n");
-    // if (fscanf(inputFP, "%s", p3) != 1) {
-    //     printf("Error reading input image type.\n");
-    //     return 0;
-    // }
-    // printf("Image type: %s\n", p3);
-
-    // printf("Reading dimensions...\n");
-    // if (fscanf(inputFP, "%d %d", &width, &height) != 2) {
-    //     printf("Error reading input image dimensions. width=%d height=%d\n", width, height);
-    //     return 0;
-    // }
-    printf("Dimensions: width=%d, height=%d\n", width, height);
-
-
-
     fscanf(inputFP, "%d", &maxIntensity);
-    unsigned long numOfPixels = width * height;
-    printf("p3: %s width: %d height: %d maxIntensity: %d numOfPixels: %ld\n", p3, width, height, maxIntensity, numOfPixels);
+    int numOfPixels = width * height;
+    printf("p3: %s width: %d height: %d maxIntensity: %d numOfPixels: %d\n", p3, width, height, maxIntensity, numOfPixels);
 
-
-    if(numOfPixels <= ((unsigned long)snumOfPixels*8)+16)
+    if(numOfPixels <= (snumOfPixels*8)+16)
     {
         fclose(inputFP);
         fclose(outputFP);
@@ -305,7 +286,7 @@ unsigned int hide_image(char *secret_image_filename, char *input_filename, char 
     {
         int waste1=0;
         int waste2=0;
-        fscanf(secretFP, "%d %d %d", &toHide, &waste1, &waste2);
+        fscanf(secretFP, "%d %d %d ", &toHide, &waste1, &waste2);
         for(int j = 0; j < 8; j++)
         {
             int waster1=0;
