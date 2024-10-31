@@ -317,6 +317,53 @@ unsigned int hide_image(char *secret_image_filename, char *input_filename, char 
 
 void reveal_image(char *input_filename, char *output_filename) 
 {
-    (void)input_filename;
-    (void)output_filename;
+    FILE *inputFP = fopen(input_filename, "r");
+    FILE *outputFP = fopen(output_filename, "w");
+
+    char p3[3];
+    int width;
+    int height;
+    int maxIntensity;
+    fscanf(inputFP, "%s", p3);
+    fscanf(inputFP, "%d %d", &width, &height);
+    fscanf(inputFP, "%d", &maxIntensity);
+
+    int swidth; 
+    int currNum;
+    for(int i = 0; i < 8; i++)
+    {
+        int waste1;
+        int waste2;
+        fscanf(inputFP, "%d %d %d ", &currNum, &waste1, &waste2);
+        swidth |= ((currNum & 1) << (7 - i));
+    }
+    
+    int sheight;
+    for(int i = 0; i < 8; i++)
+    {
+        int waste1;
+        int waste2;
+        fscanf(inputFP, "%d %d %d ", &currNum, &waste1, &waste2);
+        sheight |= ((currNum & 1) << (7 - i));
+    }
+    fprintf(outputFP, "%s\n%d %d\n%d", p3, swidth, sheight, maxIntensity);
+
+    int snumOfPixels = swidth * sheight;
+
+    for (int i = 0; i < snumOfPixels; i++) 
+    {
+        int pixel = 0;
+        for (int j = 0; j < 8; j++) 
+        {
+            int waster1;
+            int waster2;
+            fscanf(inputFP, "%d %d %d ", &currNum, &waster1, &waster2);
+            pixel |= ((currNum & 1) << (7 - j));
+        }
+        fprintf(outputFP, "%d %d %d ", pixel, pixel, pixel);
+    }
+
+    fclose(inputFP);
+    fclose(outputFP);
+
 }
