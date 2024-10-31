@@ -208,6 +208,7 @@ unsigned int hide_image(char *secret_image_filename, char *input_filename, char 
 {
     FILE *inputFP = fopen(input_filename, "r");
     FILE *secretFP = fopen(secret_image_filename, "r");
+    if(!secretFP)
     {
         fprintf(stderr, "Error opening file %s\n", secret_image_filename);
         fclose(inputFP);
