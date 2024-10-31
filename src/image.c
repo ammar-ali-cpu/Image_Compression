@@ -204,16 +204,21 @@ char *reveal_message(char *input_filename)
     return message;
 }
 
-unsigned int hide_image(char *secret_image_filename, char *input_filename, char *output_filename) 
+unsigned int hide_image(char *secret_image_filename, char *input_filename, char *output_filename)
 {
     FILE *inputFP = fopen(input_filename, "r");
+    // if(!inputFP)
+    // {
+    //     printf("Error opening input file %s\n", secret_image_filename);
+    //     return 0;
+    // }
     FILE *secretFP = fopen(secret_image_filename, "r");
-    if(!secretFP)
-    {
-        fprintf(stderr, "Error opening file %s\n", secret_image_filename);
-        fclose(inputFP);
-        return 0;
-    }
+    // if(!secretFP)
+    // {
+    //     printf("Error opening secret file %s\n", secret_image_filename);
+    //     //fclose(inputFP);
+    //     return 0;
+    // }
     FILE *outputFP = fopen(output_filename, "w");
 
     char sp3[3];
@@ -224,17 +229,52 @@ unsigned int hide_image(char *secret_image_filename, char *input_filename, char 
     fscanf(secretFP, "%d %d", &swidth, &sheight);
     fscanf(secretFP, "%d", &smaxIntensity);
     int snumOfPixels = swidth *sheight;
+    printf("sp3: %s swidth: %d sheight: %d smaxIntensity: %d snumOfPixel: %d\n", sp3, swidth, sheight, smaxIntensity, snumOfPixels);
 
     char p3[3];
-    int width;
-    int height;
+    int width=0;
+    int height=0;
     int maxIntensity;
     fscanf(inputFP, "%s", p3);
+    char checkForComment;
+    while (1) 
+    {
+        fscanf(inputFP, " %c", &checkForComment);
+        if (checkForComment == '#') 
+        {
+            while (fgetc(inputFP) != '\n');
+        } 
+        else 
+        {
+            ungetc(checkForComment, inputFP);
+            break;
+        }
+    }
     fscanf(inputFP, "%d %d", &width, &height);
-    fscanf(inputFP, "%d", &maxIntensity);
-    int numOfPixels = width * height;
+    
+    // printf("Attempting to read input file...\n");
+    // printf("Reading image type...\n");
+    // if (fscanf(inputFP, "%s", p3) != 1) {
+    //     printf("Error reading input image type.\n");
+    //     return 0;
+    // }
+    // printf("Image type: %s\n", p3);
 
-    if(numOfPixels <= (snumOfPixels*8)+16)
+    // printf("Reading dimensions...\n");
+    // if (fscanf(inputFP, "%d %d", &width, &height) != 2) {
+    //     printf("Error reading input image dimensions. width=%d height=%d\n", width, height);
+    //     return 0;
+    // }
+    printf("Dimensions: width=%d, height=%d\n", width, height);
+
+
+
+    fscanf(inputFP, "%d", &maxIntensity);
+    unsigned long numOfPixels = width * height;
+    printf("p3: %s width: %d height: %d maxIntensity: %d numOfPixels: %ld\n", p3, width, height, maxIntensity, numOfPixels);
+
+
+    if(numOfPixels <= ((unsigned long)snumOfPixels*8)+16)
     {
         fclose(inputFP);
         fclose(outputFP);
