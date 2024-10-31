@@ -332,7 +332,7 @@ void reveal_image(char *input_filename, char *output_filename)
     printf("p3: %s width: %d height: %d maxIntensity: %d numOfPixels: %d\n", p3, width, height, maxIntensity, numOfPixels);
 
     int swidth=0; 
-    int currNum;
+    int currNum =0;
     for(int i = 0; i < 8; i++)
     {
         int waste1;
@@ -349,7 +349,7 @@ void reveal_image(char *input_filename, char *output_filename)
         fscanf(inputFP, "%d %d %d ", &currNum, &waste1, &waste2);
         sheight |= ((currNum & 1) << (7 - i));
     }
-    fprintf(outputFP, "%s\n%d %d\n%d", p3, swidth, sheight, maxIntensity);
+    fprintf(outputFP, "%s\n%d %d\n%d\n", p3, swidth, sheight, maxIntensity);
 
     int snumOfPixels = swidth * sheight;
     printf("swidth: %d shieght: %d snum: %d/n", swidth, sheight, snumOfPixels);
@@ -364,10 +364,21 @@ void reveal_image(char *input_filename, char *output_filename)
             fscanf(inputFP, "%d %d %d ", &currNum, &waster1, &waster2);
             pixel |= ((currNum & 1) << (7 - j));
         }
+        printf("Decoded pixel %d intensity: %d\n", i, pixel);
+
         fprintf(outputFP, "%d %d %d ", pixel, pixel, pixel);
     }
 
     fclose(inputFP);
     fclose(outputFP);
+    FILE *outputRead = fopen(output_filename, "r");
+    char a[3];
+    int b=0;
+    int c=0;
+    int d=0;
+    fscanf(outputRead, "%s", a);
+    fscanf(outputRead, "%d %d\n%d", &b, &c, &d);
+    printf("%s\n%d %d\n%d ", a, b, c, d);
 
+    fclose(outputRead);
 }
